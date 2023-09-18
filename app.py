@@ -4,6 +4,9 @@ from fast_dash import FastDash, Fastify, dcc, dmc
 from embedchain import App
 from embedchain.config import QueryConfig
 from string import Template
+import os
+
+routes = os.environ["ROUTE"]
 
 # Define app configurations
 PROMPT = Template(
@@ -78,7 +81,7 @@ def explore_your_knowledge_base(
         return "Did you forget writing your query in the query box?"
 
     os.environ["OPENAI_API_KEY"] = openai_api_key
-    app = App()
+    app = App(url_base_pathname=routes)
 
     try:
         if web_page_urls:
@@ -114,4 +117,4 @@ app = FastDash(
 server = app.server
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
